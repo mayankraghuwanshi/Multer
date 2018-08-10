@@ -3,11 +3,14 @@ const mongoose = require('mongoose');
 const server =  express();
 server.use(express.json());
 server.use(express.urlencoded({
-    extend:true
+    extend:false
 }))
+server.use('/uploads', express.static('images'));
+server.use('/user',require('./routes/user'))
+server.use('/post',require('./routes/post'))
 
 
-mongoose.connect('mongodb://localhost:27017')
+
 server.listen(1221,()=>{
     console.log('http://localhost:1221')
 })
