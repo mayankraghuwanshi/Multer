@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
         done(null, '../images');
     },
     filename: function (req , file ,done) {
-        done(null , new Date().toISOString + file.originalname);
+        done(null ,file.originalname);
 
     }
 })
@@ -36,11 +36,14 @@ route.get('/',(req , res)=>{
     })
 })
 route.post('/post',upload.single("image"),( req , res)=>{
-   /* const post = new Post({title:req.body.title})
+   const post = new Post({
+       title:req.body.title,
+       image:req.file.path
+
+   })
     post.save().then((data)=>{
         res.send(data)
-    })*/
-   res.send(req.file)
+    })
 
 
 
