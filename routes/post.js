@@ -2,9 +2,28 @@ const route = require('express').Router();
 const mongoose = require('mongoose');
 const Post = require('../modules/post');
 const multer = require('multer');
-const upload = multer({
-    dest:"../images/"
+const storage = multer.diskStorage({
+    destination: function(req , file , done){
+        done(null, '../images');
+    },
+    filename: function (req , file ,done) {
+        done(null , new Date().toISOString + file.originalname);
+
+    }
 })
+
+const fileFilter = function(req , file , done){
+    if(file.mimetype === "image/jpeg" || file.mimetype==="image/png"){
+        done(null,true)
+    }
+    else { done(null ,false)}
+}
+const  upload = multer({
+    storage:storage,
+    fileFilter:fileFilter
+})
+
+
 
 mongoose.connect('mongodb://localhost:27017')
 
